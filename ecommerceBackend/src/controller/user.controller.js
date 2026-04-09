@@ -57,7 +57,7 @@ export const userRegistration = async function (req, res) {
     const user = await createUser({ userName, password, email });
     //  calling the jwtToken function
     const jwtToken = createJwtToken(user.id);
-    res.cookie("jwtToken", jwtToken);
+    res.cookie("userjwtToken", jwtToken);
     return res.status(201).json({
       message: "🎉 user Created Successfully",
       user: {
@@ -123,7 +123,7 @@ export const UserLogin = async (req, res) => {
       });
     }
     const jwtToken = createJwtToken(user.id);
-    res.cookie("jwtToken", jwtToken);
+    res.cookie("userjwtToken", jwtToken);
     return res.status(201).json({
       message: "✅ User Loggied in Successfully",
       user: {
@@ -142,7 +142,7 @@ export const UserLogin = async (req, res) => {
 
 export const userLogout = (req, res) => {
   try {
-    res.clearCookie("jwtToken");
+    res.clearCookie("userjwtToken");
     res.status(202).json({
       message: " User Successfully logged Out 🎉",
     });

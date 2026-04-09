@@ -55,7 +55,7 @@ export const RegisterAdmin = async (req, res) => {
     const admin = await createAdmin({ email, password });
     //  calling the jwtToken function
     const jwtToken = createJwtToken(admin.id);
-    res.cookie("jwtToken", jwtToken);
+    res.cookie("adminjwtToken", jwtToken);
     return res.status(201).json({
       message: "🎉 Admin Created Successfully",
       admin: {
@@ -120,7 +120,7 @@ export const adminLogin = async (req, res) => {
       });
     }
     const jwtToken = createJwtToken(admin.id);
-    res.cookie("jwtToken", jwtToken);
+    res.cookie("adminjwtToken", jwtToken);
     return res.status(201).json({
       message: "✅ Loggied in Successfully",
       admin: {
@@ -139,7 +139,7 @@ export const adminLogin = async (req, res) => {
 
 export const adminLogout = (req, res) => {
   try {
-    res.clearCookie("jwtToken");
+    res.clearCookie("adminjwtToken");
     res.status(202).json({
       message: "You are successfully logged Out 🎉",
     });
