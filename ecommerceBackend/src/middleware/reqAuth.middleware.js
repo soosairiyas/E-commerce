@@ -1,5 +1,7 @@
 import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
 
+dotenv.config();
 export const reqAuth = (req, res, next) => {
   const adminToken = req.cookies.adminjwtToken;
   const userToken = req.cookies.userjwtToken;
@@ -12,11 +14,11 @@ export const reqAuth = (req, res, next) => {
 
   try {
     if (adminToken) {
-      const decoded = jwt.verify(adminToken, "backendecommerce");
+      const decoded = jwt.verify(adminToken, process.env.ADMIN_JWT_SECRET);
       req.admin = decoded;
       req.role = "admin";
     } else {
-      const decoded = jwt.verify(userToken, "backendecommerceuser");
+      const decoded = jwt.verify(userToken, process.env.USER_JWT_SECRET);
       req.user = decoded;
       req.role = "user";
     }
