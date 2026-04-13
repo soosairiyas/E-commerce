@@ -1,20 +1,22 @@
 import {
   addProductsCart,
   deleteProductCart,
+  getCartById,
   getCartItem,
 } from "../service/cart.service.js";
 
 export const addToCart = async function (req, res) {
   try {
-    let { userId, productId, quantity } = req.body;
+    let { productId, quantity } = req.body;
+    let { user } = req;
 
-    if (!userId || !productId) {
+    if (!user || !productId) {
       return res.status(400).json({
         message: "userId and ProductId is Required",
       });
     }
 
-    if (!userId) {
+    if (!user) {
       res.status(400).json({
         message: "userId is Required",
       });
@@ -29,7 +31,7 @@ export const addToCart = async function (req, res) {
         message: "Quantity must be Greaterthan zero 0",
       });
     }
-    const addedItem = await addProductsCart(userId, productId, quantity);
+    const addedItem = await addProductsCart(user.id, productId, quantity);
     return res.status(200).json({
       message: addedItem.message,
       data: addedItem.data,
@@ -41,9 +43,23 @@ export const addToCart = async function (req, res) {
   }
 };
 
+export const getCartsById = async function (req, res) {
+  try {
+    const Item = await getCartById(req.params.id);
+    return res.status(200).json({
+      message: Item.message,
+      data: Item.data,
+    });
+  } catch (error) {
+    return res.status(400).json({
+      message: error.message,
+    });
+  }
+};
+
 export const getCarts = async function (req, res) {
   try {
-    const cartItems = await getCartItem();
+    const cartItems = await getCartItem(req.user.id);
     return res.status(200).json({
       message: cartItems.message,
       data: cartItems.data,

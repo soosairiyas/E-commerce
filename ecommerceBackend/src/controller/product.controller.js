@@ -23,7 +23,7 @@ export const createProduct = async function (req, res) {
 
 export const getAllProducts = async function (req, res) {
   try {
-    const products = await getallProductServices();
+    const products = await getallProductService();
 
     return res.status(200).json({
       message: products.message,

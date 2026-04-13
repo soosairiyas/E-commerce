@@ -3,7 +3,6 @@ import { checkoutService } from "../service/checkout.service.js";
 export const checkOutController = async function (req, res) {
   try {
     const userId = req.user.id;
-    console.log(">>>>>userId", userId);
 
     const checkout = await checkoutService(userId);
 

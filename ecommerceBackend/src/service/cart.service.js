@@ -1,3 +1,4 @@
+import { where } from "sequelize";
 import { Cart } from "../model/cart.model.js";
 import { Product } from "../model/products.model.js";
 
@@ -46,9 +47,9 @@ export const addProductsCart = async function (
   }
 };
 
-export const getCartItem = async function () {
+export const getCartItem = async function (userId) {
   try {
-    const cartItems = await Cart.findAll();
+    const cartItems = await Cart.findAll({ where: { userId } });
     if (cartItems.length === 0) {
       return {
         message: "NO Cart Items found 😕",
@@ -58,6 +59,24 @@ export const getCartItem = async function () {
     return {
       message: "Cart Items are fetched Successfully 🎉",
       data: cartItems,
+    };
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
+export const getCartById = async function (id) {
+  try {
+    const cart = await Cart.findByPk(id);
+
+    if (!cart) {
+      return {
+        message: "Product is not Found !",
+      };
+    }
+    return {
+      message: "Cart item fetched Successfully 🎉",
+      data: cart,
     };
   } catch (error) {
     throw new Error(error.message);
