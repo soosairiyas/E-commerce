@@ -5,7 +5,7 @@ import {
 
 export const RegisterAdmin = async function (req, res) {
   try {
-    let { email, password } = req.body;
+    let { email = "", password = "" } = req.body;
     email = email.trim().toLowerCase();
     password = password.trim();
     const admin = await registeredAdminService({ email, password });
@@ -26,7 +26,7 @@ export const RegisterAdmin = async function (req, res) {
 };
 export const adminLogin = async function (req, res) {
   try {
-    let { email, password } = req.body;
+    let { email = "", password = "" } = req.body;
     email = email.trim().toLowerCase();
     password = password.trim();
 

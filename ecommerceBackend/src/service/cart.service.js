@@ -1,4 +1,5 @@
 import { Cart } from "../model/cart.model.js";
+import { Product } from "../model/products.model.js";
 
 export const addProductsCart = async function (
   userId,
@@ -6,9 +7,21 @@ export const addProductsCart = async function (
   quantity = 1,
 ) {
   try {
+    const product = await Product.findByPk(productId);
+    if (!product) {
+      throw new Error("Product is Not found 😕");
+    }
     const alreadyProductExist = await Cart.findOne({
       where: { userId, productId },
     });
+
+    const newQuantity = alreadyProductExist
+      ? alreadyProductExist.quantity + quantity
+      : quantity;
+
+    if (newQuantity > product.quantity) {
+      throw new Error(`Only ${product.quantity} items available in stock 😕`);
+    }
 
     if (alreadyProductExist) {
       alreadyProductExist.quantity += quantity;

@@ -8,7 +8,6 @@ export const addToCart = async function (req, res) {
   try {
     let { userId, productId, quantity } = req.body;
 
-    console.log("Body Data", req.body);
     if (!userId || !productId) {
       return res.status(400).json({
         message: "userId and ProductId is Required",
@@ -36,8 +35,8 @@ export const addToCart = async function (req, res) {
       data: addedItem.data,
     });
   } catch (error) {
-    res.status(500).json({
-      message: `Internal Server Error ${error}`,
+    res.status(400).json({
+      message: error.message,
     });
   }
 };
@@ -50,7 +49,7 @@ export const getCarts = async function (req, res) {
       data: cartItems.data,
     });
   } catch (error) {
-    return res.status(500).json({
+    return res.status(400).json({
       message: error.message,
     });
   }
@@ -69,8 +68,8 @@ export const removeFromCart = async function (req, res) {
       message: deletedItem.message,
     });
   } catch (error) {
-    res.status(500).json({
-      message: `Internal Server Error ${error}`,
+    res.status(400).json({
+      message: error.message,
     });
   }
 };

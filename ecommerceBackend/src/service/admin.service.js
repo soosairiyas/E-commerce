@@ -10,6 +10,7 @@ const createJwtToken = (id) => {
 };
 
 export const registeredAdminService = async function ({ email, password }) {
+  console.log(">>>>email", email);
   if (!email && !password) {
     throw new Error("Email and Password are Required !");
   }
